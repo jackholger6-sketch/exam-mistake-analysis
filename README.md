@@ -18,6 +18,16 @@
 2. **时间三件套**。封面标「批改日期 / 报告生成 / 复习起点」，复习表从**批改日期**起算，不是从生成报告的那天。
 3. **遗忘曲线复习表**。+1 / +3 / +7 / +15 / +30 天各一轮，每轮一个方框：电子版点一下变绿打钩（localStorage 记住），打印版是空心格，用笔钩。
 
+## 安装
+
+```bash
+# 装成全局技能（WorkBuddy / Claude Code 都会自动读取 SKILL.md）
+git clone git@github.com:jackholger6-sketch/exam-mistake-analysis.git \
+  ~/.workbuddy/skills/exam-mistake-analysis
+```
+
+装好后直接跟 Agent 说「分析这张卷子的错题」，附上扫描件即可。只想手工跑脚本的话，克隆到任意目录也行。
+
 ## 快速开始
 
 ```bash
