@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<style>
+  :root{
+    --ink:#1f2733; --sub:#5e6a78; --line:#e7e3da; --paper:#fbfaf6;
+    --card:#ffffff; --red:#bf3b2b; --redbg:#fdf1ee;
+    --green:#2f7d5d; --greenbg:#eff7f3;
+    --blue:#1c4e80; --bluebg:#eef4fa;
+    --gold:#b08a2e; --goldbg:#fbf6e9;
+    --pink:#a8526d;
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; padding:0 0 60px;
+    background:#f2efe8; color:var(--ink);
+    font-family:"Noto Sans SC","PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+    font-size:15px; line-height:1.75;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 18px}
+
+  /* ---------- 封面 ---------- */
+  .cover{
+    background:linear-gradient(135deg,#1c4e80 0%,#2a6a9e 55%,#3c8aa8 100%);
+    color:#fff; padding:34px 30px 24px; border-radius:0 0 22px 22px;
+    box-shadow:0 10px 30px rgba(28,78,128,.25);
+  }
+  .cover .kicker{font-size:13px;letter-spacing:.22em;opacity:.82;margin-bottom:8px}
+  .cover h1{margin:0 0 6px;font-size:27px;font-weight:800;letter-spacing:.02em;line-height:1.35}
+  .cover .sub{font-size:14px;opacity:.9}
+  .scorebar{display:flex;gap:12px;flex-wrap:wrap;margin-top:20px}
+  .scorechip{
+    background:rgba(255,255,255,.14); border:1px solid rgba(255,255,255,.28);
+    border-radius:12px; padding:9px 15px; min-width:100px;
+  }
+  .scorechip b{display:block;font-size:22px;line-height:1.2;font-weight:800}
+  .scorechip span{font-size:12px;opacity:.85;letter-spacing:.06em}
+  .dateline{
+    margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,.22);
+    display:flex;gap:22px;flex-wrap:wrap;font-size:12.5px;opacity:.92;
+  }
+  .dateline i{font-style:normal;opacity:.7;letter-spacing:.06em;margin-right:6px}
+
+  /* ---------- 通用 ---------- */
+  h2.sec{
+    font-size:18px;margin:34px 0 14px;padding-left:12px;
+    border-left:5px solid var(--blue);line-height:1.2;font-weight:800;
+  }
+  .panel{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;box-shadow:0 2px 10px rgba(31,39,51,.04);
+  }
+  .panel + .panel{margin-top:14px}
+  p{margin:.5em 0}
+  .muted{color:var(--sub);font-size:13.5px}
+
+  table.map{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px}
+  table.map th{
+    background:#f6f3ec;color:var(--sub);font-weight:600;text-align:left;
+    padding:9px 10px;border-bottom:1px solid var(--line);white-space:nowrap;font-size:12.5px;letter-spacing:.04em;
+  }
+  table.map td{padding:9px 10px;border-bottom:1px solid #f0ece4;vertical-align:top}
+  table.map tr:last-child td{border-bottom:none}
+  .tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:12px;font-weight:600;white-space:nowrap}
+  .t-red{background:var(--redbg);color:var(--red)}
+  .t-blue{background:var(--bluebg);color:var(--blue)}
+  .t-green{background:var(--greenbg);color:var(--green)}
+  .t-gold{background:var(--goldbg);color:var(--gold)}
+
+  .bars{margin-top:6px}
+  .bar{display:flex;align-items:center;gap:10px;margin:9px 0;font-size:13px}
+  .bar .nm{width:130px;color:var(--sub);flex:0 0 auto}
+  .bar .track{display:block;flex:1;height:12px;background:#efebe2;border-radius:8px;overflow:hidden}
+  .bar .fill{display:block;height:12px;border-radius:8px;background:linear-gradient(90deg,#d9705f,#bf3b2b)}
+  .bar .val{width:54px;text-align:right;font-weight:700;color:var(--red);flex:0 0 auto}
+
+  /* ---------- 错题卡 ---------- */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    margin:26px 0 0;overflow:hidden;box-shadow:0 3px 14px rgba(31,39,51,.05);
+    break-inside:avoid;page-break-inside:avoid;
+  }
+  .card > .head{
+    display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+    padding:14px 22px;background:#faf8f3;border-bottom:1px solid var(--line);
+  }
+  .num{
+    width:34px;height:34px;border-radius:10px;background:var(--red);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:15px;flex:0 0 auto;
+  }
+  .head h3{margin:0;font-size:16.5px;font-weight:800;flex:1;min-width:200px;line-height:1.4}
+  .head .pts{font-size:12.5px;color:var(--red);font-weight:700;background:var(--redbg);padding:3px 10px;border-radius:20px;white-space:nowrap}
+  .body{padding:18px 22px 22px}
+
+  .qbox{background:#f9f9f7;border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:12px 16px;margin:0 0 14px}
+  .qbox .lbl{font-size:12px;color:var(--blue);font-weight:700;letter-spacing:.1em;margin-bottom:4px}
+  .qbox p{margin:.25em 0}
+  .opts{color:var(--sub);font-size:14px}
+
+  .abox{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:0 0 14px}
+  @media (max-width:640px){.abox{grid-template-columns:1fr}}
+  .ans{border-radius:12px;padding:11px 14px;font-size:14px}
+  .ans .lbl{font-size:11.5px;letter-spacing:.1em;font-weight:700;margin-bottom:3px;opacity:.85}
+  .wrong{background:var(--redbg);border:1px solid #f3d5cf;color:#8d2f22}
+  .right{background:var(--greenbg);border:1px solid #cfe6db;color:#225e45}
+  .ans b{font-size:16px}
+
+  figure.ev{margin:0 0 16px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff}
+  figure.ev img{display:block;width:100%;height:auto}
+  figure.ev figcaption{font-size:12px;color:var(--sub);padding:7px 12px;background:#faf8f3;border-top:1px solid var(--line)}
+
+  .diag{background:var(--goldbg);border:1px solid #efe2c4;border-radius:12px;padding:13px 16px;margin:0 0 14px}
+  .diag .lbl{font-size:12px;font-weight:800;color:var(--gold);letter-spacing:.1em;margin-bottom:5px}
+  .diag ul{margin:.2em 0;padding-left:1.15em}
+  .diag li{margin:.3em 0}
+
+  .teach{border:1px dashed #cfd8e3;border-radius:12px;padding:13px 16px;margin:0 0 14px;background:#fbfcfe}
+  .teach .lbl{font-size:12px;font-weight:800;color:var(--blue);letter-spacing:.1em;margin-bottom:5px}
+  .steps{margin:.3em 0;padding-left:1.2em}
+  .steps li{margin:.28em 0}
+  .formula{
+    display:inline-block;background:#eef4fa;color:#17456f;border-radius:8px;
+    padding:2px 10px;font-weight:700;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;
+  }
+
+  .prac{background:#fcfbf7;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .prac .lbl{font-size:12px;font-weight:800;color:var(--pink);letter-spacing:.1em;margin-bottom:6px}
+  .prac ol{margin:.2em 0 .2em;padding-left:1.3em}
+  .prac ol li{margin:.42em 0}
+  .prac .tip{font-size:12.5px;color:var(--sub);margin-top:8px}
+
+  .callout{
+    background:#eef4fa;border-left:5px solid var(--blue);border-radius:0 12px 12px 0;
+    padding:14px 18px;margin:14px 0;font-size:14px;
+  }
+  .callout b{color:var(--blue)}
+
+  /* ---------- 遗忘曲线复习表 ---------- */
+  table.rev{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:8px}
+  table.rev th{background:#f6f3ec;color:var(--sub);font-weight:600;text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);font-size:12.5px;letter-spacing:.04em;white-space:nowrap}
+  table.rev td{padding:9px 10px;border-bottom:1px solid #f0ece4;vertical-align:middle}
+  table.rev tr:last-child td{border-bottom:none}
+  table.rev .rno{font-weight:800;color:var(--blue);white-space:nowrap}
+  table.rev .rdate{font-variant-numeric:tabular-nums;white-space:nowrap}
+  table.rev .rdate small{color:var(--sub);font-size:12px;margin-left:5px}
+  table.rev .rday{color:var(--sub);font-size:12.5px;white-space:nowrap}
+  .chk{
+    -webkit-appearance:none;appearance:none;width:20px;height:20px;border:1.6px solid #b9c3d0;
+    border-radius:5px;background:#fff;cursor:pointer;display:inline-block;vertical-align:-4px;position:relative;
+  }
+  .chk:checked{background:var(--green);border-color:var(--green)}
+  .chk:checked::after{
+    content:"";position:absolute;left:5px;top:1px;width:6px;height:11px;
+    border:2.4px solid #fff;border-top:0;border-left:0;transform:rotate(42deg);
+  }
+  .chk:checked + .cktxt{color:var(--green);font-weight:700;text-decoration:line-through;text-decoration-thickness:1px}
+  .cktxt{font-size:12.5px;color:var(--sub);margin-left:6px;white-space:nowrap}
+  .revhint{font-size:12.5px;color:var(--sub);margin-top:10px}
+
+  /* ---------- 答案页 ---------- */
+  .anspage{background:#fff;border:2px dashed #d7cfc0;border-radius:18px;padding:22px 24px;margin-top:26px}
+  .anspage h2{margin:0 0 4px;font-size:19px;font-weight:800;color:var(--blue);padding:0;border:0}
+  .anspage .lead{font-size:13px;color:var(--sub);margin:0 0 16px;padding-bottom:12px;border-bottom:1px dashed var(--line)}
+  .agroup{margin:16px 0 0;break-inside:avoid;page-break-inside:avoid}
+  .agroup .gh{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .agroup .gno{
+    width:28px;height:28px;border-radius:8px;background:var(--bluebg);color:var(--blue);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:0 0 auto;
+  }
+  .agroup .gt{font-size:14px;font-weight:800;color:#2b3746}
+  .agroup .gb{font-size:13.8px;color:#2b3746;padding-left:38px}
+  .agroup .gb p{margin:.32em 0}
+
+  .foot{margin-top:34px;font-size:12.5px;color:var(--sub);line-height:1.8;border-top:1px dashed var(--line);padding-top:14px}
+  .pagebreak{break-before:page;page-break-before:always}
+
+  @media print{
+    body{background:#fff;font-size:12.5px;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .wrap{max-width:none;padding:0}
+    .cover{border-radius:0;box-shadow:none}
+    .card{box-shadow:none;margin-top:16px;break-inside:auto;page-break-inside:auto}
+    .qbox,.abox,.diag,.teach,.prac,figure.ev,.agroup{break-inside:avoid;page-break-inside:avoid}
+    .qbox{break-after:avoid;page-break-after:avoid}
+    .abox{break-before:avoid;page-break-before:avoid}
+    table.rev{break-inside:avoid;page-break-inside:avoid}
+    .panel,table.map{break-inside:auto}
+    .keep{break-inside:avoid;page-break-inside:avoid}
+    table.map tr,table.rev tr{break-inside:avoid;page-break-inside:avoid}
+    .head{break-after:avoid;page-break-after:avoid}
+    h2.sec{break-after:avoid;page-break-after:avoid}
+    .prac ol li{break-inside:avoid}
+    .noprint{display:none}
+    .chk{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+    @page{size:A4;margin:12mm}
+  }
+</style>
+</head>
+<body>
+
+<div class="cover">
+  <div class="wrap">
+    <div class="kicker">{{KICKER}}</div>
+    <h1>{{H1}}</h1>
+    <div class="sub">{{SUBTITLE}}</div>
+    <div class="scorebar">{{SCORECHIPS}}</div>
+    <div class="dateline">
+      <span><i>批改日期</i>{{GRADED_DATE}}</span>
+      <span><i>报告生成</i>{{GENERATED_AT}}</span>
+      <span><i>复习起点</i>{{REVIEW_START}}</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <h2 class="sec">一、失分全景：分丢在哪</h2>
+  <div class="panel">
+    <div class="bars">{{BARS}}</div>
+    <p class="muted" style="margin-top:14px">{{CONCLUSION}}</p>
+  </div>
+
+  <h2 class="sec">二、错题清单（按卷面顺序）</h2>
+  <div class="panel" style="padding:12px 14px">
+    <table class="map">
+      <thead>
+        <tr><th>题号</th><th>题型</th><th>扣分</th><th>知识板块</th><th>卡在哪</th></tr>
+      </thead>
+      <tbody>{{TABLE_ROWS}}</tbody>
+    </table>
+  </div>
+
+  <h2 class="sec">三、逐题分析（{{ERROR_COUNT}} 道）</h2>
+  {{CARDS}}
+
+  <div class="keep">
+  <h2 class="sec">四、复习计划（遗忘曲线 · 复习一次打一个钩）</h2>
+  <div class="panel">
+    <p class="muted" style="margin-top:0">按艾宾浩斯遗忘曲线排的 5 次复习，从<b>批改日期</b>起算。每次只做两件事：① 把对应的错题<b>原题重做</b>（不看答案）；② 挑 2 道举一反三变式。做完在这里打钩——纸质版就打在手写格子里。</p>
+    <table class="rev">
+      <thead>
+        <tr><th style="width:76px">轮次</th><th style="width:150px">计划日期</th><th style="width:74px">间隔</th><th>这次要做什么</th><th style="width:104px">完成</th></tr>
+      </thead>
+      <tbody>{{REVIEW_ROWS}}</tbody>
+    </table>
+    <p class="revhint noprint">提示：电子版点方框即可打钩，勾选状态会保存在这台设备的浏览器里；打印出来的版本请用笔打钩。</p>
+    <p class="revhint" style="color:#8d2f22">如果某一轮没打钩，不用补，直接按下一轮的日期继续——关键是"隔几天再碰一次"，不是完成率。</p>
+  </div>
+  </div>
+
+  <div class="keep">
+  <h2 class="sec">五、接下来怎么补</h2>
+  <div class="panel">{{WEEK_PLAN}}</div>
+  </div>
+
+  <div class="anspage pagebreak">
+    <h2>附：举一反三 · 参考答案（共 {{PRACTICE_COUNT}} 题）</h2>
+    <p class="lead">先让孩子把上面的题做完、写完过程，再翻到这一页对答案。对完之后，把错的变式在题号上画个圈，下一轮复习重点看它。</p>
+    {{ANSWER_SECTIONS}}
+  </div>
+
+  <p class="foot">{{FOOT}}</p>
+
+</div>
+
+<script>
+(function(){
+  var KEY='exam-mistake-review:{{REPORT_ID}}';
+  var saved={};
+  try{saved=JSON.parse(localStorage.getItem(KEY)||'{}')}catch(e){saved={}}
+  var boxes=document.querySelectorAll('.chk');
+  boxes.forEach(function(b){
+    var k=b.getAttribute('data-k');
+    if(saved[k]){b.checked=true;b.nextElementSibling&&(b.nextElementSibling.textContent='已完成')}
+    b.addEventListener('change',function(){
+      saved[k]=b.checked;
+      if(!b.checked){delete saved[k]}
+      b.nextElementSibling&&(b.nextElementSibling.textContent=b.checked?'已完成':'未完成');
+      try{localStorage.setItem(KEY,JSON.stringify(saved))}catch(e){}
+    });
+  });
+})();
+</script>
+</body>
+</html>

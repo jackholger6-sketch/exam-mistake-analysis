@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+.DS_Store
+Thumbs.db
+
+# 生成的报告与中间产物（库里不放真实试卷与孩子笔迹）
+output/
+input/
+pages/
+evidence/
+*.pdf
+!docs/*.pdf
